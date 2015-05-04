@@ -19,8 +19,8 @@ class Metamine:
         metadata['album_artist'] = ''
         metadata['album'] = ''
         metadata['genre'] = 'Soundtrack'
-        metadata['year'] = 2015
-        metadata['album_art_link'] = 'http://'
+        metadata['date'] = '2015'
+        metadata['album_art_link'] = ''
 
         #dump the empty metadata to temp metadata file
         with open(TEMPMETADATA_FILENAME, 'w') as tempfile:
