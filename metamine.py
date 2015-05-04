@@ -21,6 +21,7 @@ class Metamine:
         metadata['genre'] = 'Soundtrack'
         metadata['date'] = '2015'
         metadata['album_art_link'] = ''
+        metadata['lyricist'] = ''
 
         #dump the empty metadata to temp metadata file
         with open(TEMPMETADATA_FILENAME, 'w') as tempfile:
@@ -49,14 +50,14 @@ class Metamine:
 
     def get_metadata(self):
         if self.userfilename is None:
-            return self.__get_from_user__()
+            metadata = self.__get_from_user__()
         elif os.path.isfile(self.userfilename) is not True:
-            return self.__get_from_user__()
+            metadata = self.__get_from_user__()
 
         #else read metadata from file
         with open(self.userfilename) as metafile:
             try:
-                return json.load(metafile)
+                metadata = json.load(metafile)
             except ValueError as e:
                 print ('Invalid metadata %s' % e)
                 metafile.close()
@@ -65,6 +66,19 @@ class Metamine:
                 # edit an empty data or this file
 
                 call([EDITOR, self.userfilename])
-                return self.get_metadata()
+                metadata = self.get_metadata()
+
+
+        #Extract lyrics if given
+        if 'lyrics' in metadata :
+            lyrics = metadata['lyrics']
+        else:
+            lyrics = u""
+
+        #Add lyricist info in lyrics
+        if metadata['lyricist'] :
+            metadata['lyrics'] = u"Lyrics by " + metadata['lyricist'] + "\n" + lyrics
+
+        return metadata
 
 

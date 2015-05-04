@@ -25,6 +25,7 @@ def add_metadata(audiofile, metafile=None):
     audiofile.tag.album = metadata['album']
     audiofile.tag.genre = metadata['genre']
     audiofile.tag.recording_date = metadata['date']
+    audiofile.tag.lyrics.set(metadata['lyrics'])
 
     #check for album art link
     cover_link = metadata['album_art_link']
