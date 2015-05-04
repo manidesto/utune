@@ -33,9 +33,12 @@ def add_metadata(audiofile, metafile=None):
         cover = urllib.urlopen(cover_link).read()
         audiofile.tag.images.set(3, cover, mimetype, metadata['album'])
 
-    #save the tag
-    audiofile.tag.save()
+    #save the tag in most popular version
+    #currently it is ID3_V2_3
+    audiofile.tag.save(version = eyed3.id3.ID3_V2_3)
 
+    #save the id3 v1 tag also
+    audiofile.tag.save(version = eyed3.id3.ID3_V1_1)
     return metadata['title']
 
 def download_audio(link):
