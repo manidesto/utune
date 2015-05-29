@@ -53,20 +53,20 @@ class Metamine:
             metadata = self.__get_from_user__()
         elif os.path.isfile(self.userfilename) is not True:
             metadata = self.__get_from_user__()
+        else :
+            #else read metadata from file
+            with open(self.userfilename) as metafile:
+                try:
+                    metadata = json.load(metafile)
+                except ValueError as e:
+                    print ('Invalid metadata %s' % e)
+                    metafile.close()
 
-        #else read metadata from file
-        with open(self.userfilename) as metafile:
-            try:
-                metadata = json.load(metafile)
-            except ValueError as e:
-                print ('Invalid metadata %s' % e)
-                metafile.close()
+                    #TODO: ask the user wether he wants to 
+                    # edit an empty data or this file
 
-                #TODO: ask the user wether he wants to 
-                # edit an empty data or this file
-
-                call([EDITOR, self.userfilename])
-                metadata = self.get_metadata()
+                    call([EDITOR, self.userfilename])
+                    metadata = self.get_metadata()
 
 
         #Extract lyrics if given
